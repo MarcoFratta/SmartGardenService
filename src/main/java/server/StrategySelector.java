@@ -1,9 +1,8 @@
 package server;
 
-import model.InputData;
 import model.SmartGarden;
 
 @FunctionalInterface
-public interface StrategySelector {
-    SmartGardenStrategy select(SmartGarden garden, InputData input);
+public interface StrategySelector<T> {
+    SmartGardenStrategy select(SmartGarden garden, T input);
 }

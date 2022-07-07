@@ -1,6 +1,6 @@
 package model;
 
-public class InputDataImpl implements InputData{
+public class SensorBoardDataImpl implements SensorBoardData {
 
     private static final int MAX_TEMP = 5;
     private static final int MAX_LUM = 8;
@@ -9,7 +9,7 @@ public class InputDataImpl implements InputData{
     private final int luminosity;
     private final long time;
 
-    public InputDataImpl(final int temperature, final int luminosity, final long time) throws IllegalArgumentException{
+    public SensorBoardDataImpl(final int temperature, final int luminosity, final long time) throws IllegalArgumentException{
         if(temperature > MAX_TEMP || luminosity > MAX_LUM){
             throw new IllegalArgumentException("Invalid values");
         }

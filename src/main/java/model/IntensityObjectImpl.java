@@ -17,6 +17,12 @@ public class IntensityObjectImpl extends OnOffObjectImpl implements IntensityObj
         this.intensity = motor.getIntensity();
     }
 
+    public IntensityObjectImpl(final String name, final State state, final int intensity, final int max, final int min) {
+        this(min, max, name);
+        super.switchState(state);
+        this.setIntensity(intensity);
+    }
+
 
     @Override
     public int getIntensity() {

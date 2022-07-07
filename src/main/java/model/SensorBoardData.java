@@ -1,6 +1,6 @@
 package model;
 
-public interface InputData {
+public interface SensorBoardData {
     int getTemperature();
     int getLuminosity();
     long getTimeStamp();
