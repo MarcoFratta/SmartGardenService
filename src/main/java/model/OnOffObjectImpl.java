@@ -32,4 +32,12 @@ public class OnOffObjectImpl implements OnOffObject {
     public String getName() {
         return this.name;
     }
+
+    @Override
+    public String toString() {
+        return "OnOffObjectImpl{" +
+                "state=" + this.state +
+                ", name='" + this.name + '\'' +
+                '}';
+    }
 }

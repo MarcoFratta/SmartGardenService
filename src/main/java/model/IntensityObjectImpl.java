@@ -47,4 +47,13 @@ public class IntensityObjectImpl extends OnOffObjectImpl implements IntensityObj
     public int getMinIntensity() {
         return this.minIntensity;
     }
+
+    @Override
+    public String toString() {
+        return "IntensityObjectImpl{" +
+                "maxIntensity=" + this.maxIntensity +
+                ", minIntensity=" + this.minIntensity +
+                ", intensity=" + this.intensity +
+                '}';
+    }
 }

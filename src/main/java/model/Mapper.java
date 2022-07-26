@@ -1,8 +1,7 @@
 package model;
 
-import io.vertx.core.json.JsonObject;
+public interface Mapper<X, T> {
+    X to(T x);
 
-public interface Mapper<T> {
-    JsonObject toJson(T x);
-    T toObject(JsonObject x) throws IllegalArgumentException;
+    T from(X x) throws IllegalArgumentException;
 }

@@ -1,6 +1,9 @@
-package server;
+package logic;
+
+import logger.Log;
 
 public interface SmartGardenOperation {
-    String getLog();
+    Log getLog();
+
     void execute();
 }

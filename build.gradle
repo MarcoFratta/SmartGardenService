@@ -1,25 +1,89 @@
 plugins {
     id 'java'
-}
-
-group 'org.example'
-version '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-
-    implementation 'io.vertx:vertx-core:4.2.6'
-    implementation 'io.vertx:vertx-web:4.2.6'
-    implementation 'io.vertx:vertx-web-client:4.2.6'
-    implementation 'io.vertx:vertx-mqtt:4.2.6'
+    id "application"
+    id 'org.javamodularity.moduleplugin' version "1.8.9"// Use Application plugin
+    id "org.openjfx.javafxplugin" version "0.0.13" // Use JavaFX plugin
+    id 'org.beryx.runtime' version '1.12.7'
+    //id 'org.beryx.jlink' version '2.24.1'
 
 }
+    repositories {
+        mavenCentral()
+    }
 
-test {
-    useJUnitPlatform()
+    sourceCompatibility = "16"
+    targetCompatibility = "16"
+
+
+javafx {
+    version = 16
+    modules = ['javafx.controls','javafx.graphics','javafx.fxml']
+}
+    dependencies{
+        implementation 'io.vertx:vertx-core:4.2.6'
+        implementation 'io.vertx:vertx-web:4.2.6'
+        implementation 'io.vertx:vertx-web-client:4.2.6'
+        implementation 'io.vertx:vertx-mqtt:4.2.6'
+        implementation 'io.github.java-native:jssc:2.9.2'
+
+    }
+
+    application {
+        mainClass = "server.Launcher"
+       // mainModule = 'SmartGardenService'
+        applicationName = 'Garden Service'
+    }
+    mainClassName = "server.Launcher"
+
+
+
+
+
+
+runtime {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+
+// Uncomment and adjust the code below if you want to generate images for multiple platforms.
+// (You need to also uncomment the line 'targetPlatformName = ...' in the jpackage block.)
+/*
+    targetPlatform("lin") {
+        jdkHome = jdkDownload("https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.2%2B7/OpenJDK15U-jdk_x64_linux_hotspot_15.0.2_7.tar.gz")
+    }
+    targetPlatform("mac") {
+        jdkHome = jdkDownload("https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.2%2B7/OpenJDK15U-jdk_x64_mac_hotspot_15.0.2_7.tar.gz") {
+            downloadDir = "$buildDir/myMac"
+            archiveName = "my-mac-jdk"
+            archiveExtension = "tar.gz"
+            pathToHome = "jdk-15.0.2+7/Contents/Home"
+            overwrite = true
+        }
+    }
+    targetPlatform("win") {
+        jdkHome = jdkDownload("https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.2%2B7/OpenJDK15U-jdk_x64_windows_hotspot_15.0.2_7.zip")
+    }
+*/
+
+    launcher {
+        noConsole = true
+    }
+    jpackage {
+        // Uncomment and adjust the following line if your runtime task is configured to generate images for multiple platforms
+        // targetPlatformName = "mac"
+
+        def currentOs = org.gradle.internal.os.OperatingSystem.current()
+        def imgType = currentOs.windows ? 'ico' : currentOs.macOsX ? 'icns' : 'png'
+        imageOptions += ['--icon', "src/main/resources/garden.$imgType"]
+        installerOptions += ['--resource-dir', "src/main/resources"]
+        installerOptions += ['--vendor', 'Marco Frattarola']
+
+        if(currentOs.windows) {
+            installerOptions += ['--win-per-user-install', '--win-dir-chooser', '--win-menu', '--win-shortcut']
+        }
+        else if (currentOs.linux) {
+            installerOptions += ['--linux-package-name', 'smartGarden','--linux-shortcut']
+        }
+        else if (currentOs.macOsX) {
+            installerOptions += ['--mac-package-name', 'smartGarden']
+        }
+    }
 }
